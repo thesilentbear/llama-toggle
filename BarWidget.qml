@@ -51,7 +51,10 @@ BarWidget {
       waitForEnd: true
       onStreamFinished: {
         root.probing = false
-        root.active = text.trim() === "active"
+        // Only notify the UI when the real state changed, so the periodic
+        // probe never makes the pill flicker.
+        var on = text.trim() === "active"
+        if (root.active !== on) root.active = on
       }
     }
   }
@@ -121,7 +124,6 @@ BarWidget {
     id: row
     anchors.centerIn: parent
     spacing: Style.space(6)
-    opacity: root.probing ? 0.6 : 1
 
     Rectangle {
       id: pill
