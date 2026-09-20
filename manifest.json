@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "dev.thesilentbear.llama-toggle",
+  "name": "Llama Toggle",
+  "version": "1.0.0",
+  "author": "Silentbear",
+  "license": "MIT",
+  "description": "Start/stop the llama.cpp server from the bar so it stays out of the way while gaming.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Llama Toggle",
+    "description": "One click pauses the llama.cpp server, one click resumes it — handy before a game.",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
