@@ -206,27 +206,52 @@ BarWidget {
         width: parent.width
       }
 
-      Text {
-        textFormat: Text.PlainText
-        text: root.active ? "The server is running" : "The server is stopped"
-        color: root.active ? root.colAccent : root.colUrgent
-        font.family: root.fontFamily
-        font.pixelSize: Style.font.body
+      // ON/OFF switch with the labels flanking it on the correct sides: the
+      // knob rides right when the server runs, so ON sits on its right and
+      // OFF on its left. The lit end picks up the theme accent; the OFF end
+      // turns red when the server is down.
+      Item {
         width: parent.width
-      }
+        height: toggleSwitch.implicitHeight + Style.space(8)
 
-      Toggle {
-        width: parent.width
-        label: root.active ? "Server on" : "Server off"
-        description: String(root.unit)
-        checked: root.active
-        foreground: root.colMain
-        accent: root.colAccent
-        fontFamily: root.fontFamily
-        // The ToggleSwitch is stateless: the caller owns `checked`. Derive
-        // the request from the real state (pre-click) so each click maps to
-        // exactly one start/stop decision.
-        onClicked: root.toggle()
+        Text {
+          id: offSide
+          textFormat: Text.PlainText
+          anchors.right: toggleSwitch.left
+          anchors.rightMargin: Style.space(8)
+          anchors.verticalCenter: parent.verticalCenter
+          text: "OFF"
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.body
+          font.bold: true
+          color: root.active ? root.colDim : root.colUrgent
+        }
+
+        ToggleSwitch {
+          id: toggleSwitch
+          anchors.centerIn: parent
+          checked: root.active
+          foreground: root.colMain
+          accent: root.colAccent
+          rounded: true
+          // The switch is stateless: the caller owns `checked`. Derive the
+          // request from the real state (pre-click) so each click maps to
+          // exactly one start/stop decision.
+          onToggled: root.toggle()
+        }
+
+        Text {
+          id: onSide
+          textFormat: Text.PlainText
+          anchors.left: toggleSwitch.right
+          anchors.leftMargin: Style.space(8)
+          anchors.verticalCenter: parent.verticalCenter
+          text: "ON"
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.body
+          font.bold: true
+          color: root.active ? root.colAccent : root.colDim
+        }
       }
 
       Text {
