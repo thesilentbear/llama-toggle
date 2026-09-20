@@ -26,6 +26,8 @@ BarWidget {
 
   readonly property color colMain: bar ? bar.foreground : Color.foreground
   readonly property color colDim: Qt.darker(colMain, 1.5)
+  readonly property color colAccent: Color.accent
+  readonly property color colUrgent: bar && bar.urgent ? bar.urgent : Color.urgent
   readonly property string fontFamily: bar ? bar.fontFamily : Style.font.family
 
   function tooltip() {
@@ -87,16 +89,49 @@ BarWidget {
     id: row
     anchors.centerIn: parent
     spacing: Style.space(6)
+    opacity: root.probing ? 0.6 : 1
 
-    Text {
-      id: glyph
-      textFormat: Text.PlainText
+    // A small pill that spells the state out: power-off glyph + "ON"/"OFF",
+    // red when the server is down. Also paints the hand cursor and lets an
+    // agent verify the color without reading the glyph.
+    Rectangle {
+      id: pill
       anchors.verticalCenter: parent.verticalCenter
-      text: "\uf544" // fa-robot
-      font.family: root.fontFamily
-      font.pixelSize: Style.font.body
-      color: root.active ? root.colMain : root.colDim
-      opacity: root.probing ? 0.6 : 1
+      implicitWidth: pillContent.implicitWidth + pillPadding * 2
+      implicitHeight: pillContent.implicitHeight + Style.space(4)
+      radius: Math.round(implicitHeight / 2)
+      color: root.active ? "transparent" : root.colUrgent
+      border.color: root.active ? Qt.darker(root.colMain, 1.8) : root.colUrgent
+      border.width: 1
+
+      readonly property int pillPadding: Style.space(5)
+
+      Row {
+        id: pillContent
+        anchors.centerIn: parent
+        spacing: Style.space(4)
+
+        Text {
+          id: glyph
+          textFormat: Text.PlainText
+          anchors.verticalCenter: parent.verticalCenter
+          text: "\uef04" // nerd-font glyph, verified present in the bar's font
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.body
+          color: root.active ? root.colAccent : root.colMain
+        }
+
+        Text {
+          id: stateText
+          textFormat: Text.PlainText
+          anchors.verticalCenter: parent.verticalCenter
+          text: root.active ? "ON" : "OFF"
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.body
+          font.bold: true
+          color: root.colMain
+        }
+      }
     }
   }
 

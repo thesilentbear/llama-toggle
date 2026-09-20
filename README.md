@@ -26,7 +26,9 @@ omarchy plugin add https://github.com/thesilentbear/llama-toggle.git --yes
 omarchy bar move dev.thesilentbear.llama-toggle --section right
 ```
 
-The robot glyph lights up while the server is running and dims when stopped.
+A small pill in the bar spells the state out: a power glyph plus `ON`/`OFF`,
+all colored from the installed theme (the `OFF` pill uses the theme's
+active/danger token, so it turns red when a red-having theme is active).
 Left-click toggles it; hovering shows the unit name and current state.
 
 ## How it works
@@ -49,7 +51,7 @@ omarchy-shell dev.thesilentbear.llama-toggle toggle   # flip it
 
 ```
 manifest.json        plugin manifest (schemaVersion 1, bar-widget kind)
-BarWidget.qml        the widget — probe, toggle, icon, tooltip
+BarWidget.qml        the widget — state pill (icon + ON/OFF), probe, toggle
 ```
 
 MIT — see [LICENSE](LICENSE). No affiliation with llama.cpp or its authors.
