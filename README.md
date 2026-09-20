@@ -29,14 +29,15 @@ omarchy bar move dev.thesilentbear.llama-toggle --section right
 A small pill in the bar spells the state out: a power glyph plus `ON`/`OFF`,
 all colored from the installed theme (the `OFF` pill uses the theme's
 active/danger token, so it turns red when a red-having theme is active).
-Left-click toggles it; hovering shows the unit name and current state.
+Clicking it opens a small menu, **"Llama Server Switch"**, with an ON/OFF
+switch; hovering the pill shows the unit name and current state.
 
 ## How it works
 
 - Every 2s the widget runs `systemctl --user is-active <unit>` to learn the
   server's state (loading counts as running).
-- Clicking runs `systemctl --user start` or `stop` detached, and flips the
-  state optimistically so the response feels instant.
+- Flipping the switch in the menu runs `systemctl --user start` or `stop`
+  detached, and flips the state optimistically so the response feels instant.
 
 ## Control from the terminal
 
